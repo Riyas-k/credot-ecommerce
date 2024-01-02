@@ -51,6 +51,7 @@ const Cart = () => {
         showConfirmButton: false,
         timer: 1500,
       });
+      handleClearCart()
       setProduct([])
     }
   };
