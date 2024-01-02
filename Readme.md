@@ -29,7 +29,7 @@ Login Credentials:
 
 Email: mohammedriyazriyaz04@gmail.com
 Password: 123
-Demo URL:
+Demo URL:https://riyas.circle-up.online/
 
 Credot E-commerce
 Repository Details
