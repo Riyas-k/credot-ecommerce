@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import axios from '../axios/config.js'
+import { useSelector } from "react-redux";
 
 const Cart = () => {
   const [cart, setCart] = useState([
@@ -7,29 +9,50 @@ const Cart = () => {
     { id: 2, name: 'Product 2', price: 30, image: 'product2.jpg' },
     // Add more products as needed
   ]);
+  const [product,setProduct] = useState([])
+  const userId = useSelector((store)=>store.user?.userData?.payload._id)
+
+  useEffect(()=>{
+    const fetchProduct= async () =>{
+       try {
+          const response = await axios.get(`/getCart/${userId}`)
+          setProduct(response.data?.products)
+          console.log(response,"++++++++++");
+       } catch (err){
+         return { status: false , message:"not found product"}
+       }
+    }
+    fetchProduct()
+  },[])
 
   const getTotalPrice = () => {
-    return cart.reduce((total, product) => total + product.price, 0);
+
+    return product.reduce((total, product) => total + product?.productId?.price, 0);
   };
 
   const handleDeleteProduct = (productId) => {
-    const updatedCart = cart.filter((product) => product.id !== productId);
-    setCart(updatedCart);
+    const updatedCart = product?.filter((product) =>{ console.log(productId,product,'hii'); return ( product.productId.id !== productId)});
+    setProduct(updatedCart);
   };
 
-  const handleClearCart = () => {
-    setCart([]);
+  const handleClearCart = async() => {
+    const response =  await axios.delete(`/clearCart/${userId}`)
+    console.log(response,'fool');
+    setProduct([]);
   };
 
   const handlePlaceOrder = () => {
     // Here you can implement the logic to place the order
     // For this example, we'll just display a success message
-    Swal.fire({
-      icon: "success",
-      title: "Successfully Placed Order",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    if(product?.length>0){
+      Swal.fire({
+        icon: "success",
+        title: "Successfully Placed Order",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setProduct([])
+    }
   };
 
   return (
@@ -38,28 +61,28 @@ const Cart = () => {
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
           <tr>
-          {/* <th className="py-2 px-4 border-b">Image</th> */}
+          <th className="py-2 px-4 border-b">Image</th>
             <th className="py-2 px-4 border-b">Product</th>
             <th className="py-2 px-4 border-b">Price</th>
             <th className="py-2 px-4 border-b">Options</th>
           </tr>
         </thead>
         <tbody>
-          {cart?.map((product) => (
-            <tr key={product.id}>
-              <td className="py-2 px-4 border-b">
+          {product?.map((product) => (
+            <tr key={product.productId.id}>
+              <td className="py-2 px-4 border-b ">
                 <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-16 h-16 object-cover"
+                  src={product.productId.image}
+                  alt={product.productId.name}
+                  className="w-16 h-16 object-cover ml-24"
                 />
-                <span className="ml-2">{product.name}</span>
               </td>
-              <td className="py-2 px-4 border-b">${product.price}</td>
+                <td className="ml-2">{product.productId.name}</td>
+              <td className="py-2 px-4 border-b">${product.productId.price}</td>
               <td className="py-2 px-4 border-b">
                 <button
                   className="bg-red-500 text-white py-2 px-4 mr-2 rounded-lg "
-                  onClick={() => handleDeleteProduct(product.id)}
+                  onClick={() => handleDeleteProduct(product.productId.id)}
                 >
                   Delete
                 </button>

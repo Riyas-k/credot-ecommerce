@@ -23,7 +23,7 @@ export const ShoeProducts = [
     image:
       "https://rukminim2.flixcart.com/image/612/612/xif0q/shoe/g/z/9/-original-imagvhevzdhxa7qj.jpeg?q=70",
   },
-    {
+  {
       id: 4,
       name: "Nike",
       description: "Some quick example text to build",
@@ -37,13 +37,21 @@ export const ShoeProducts = [
       description: "Some quick example text to build",
       price: 699,
       image:
+        "https://rukminim2.flixcart.com/image/612/612/xif0q/shoe/g/z/9/-original-imagvhevzdhxa7qj.jpeg?q=70",
+    },
+    {
+      id: 6,
+      name: "Nike",
+      description: "Some quick example text to build",
+      price: 699,
+      image:
       "https://rukminim2.flixcart.com/image/612/612/xif0q/shoe/2/5/r/8-white-ogie-shoes-8-8-glemia-white-original-imagvyhvpgk89dzv.jpeg?q=70",
     
     },
 ];
 export const BagProducts = [
   {
-    id: 1,
+    id: 7,
     name: "Adidas",
     description: "Some quick example text to build",
     price: 999,
@@ -51,7 +59,7 @@ export const BagProducts = [
       "https://rukminim2.flixcart.com/image/612/612/xif0q/backpack/x/1/a/-original-imagh3waxgmrfw4q.jpeg?q=70",
   },
   {
-    id: 2,
+    id: 8,
     name: "Nike Air",
     description: "Some quick example text to build",
     price: 799,
@@ -59,7 +67,7 @@ export const BagProducts = [
       "https://rukminim2.flixcart.com/image/612/612/xif0q/sling-bag/w/p/m/-original-imagkychqqh9cfcp.jpeg?q=70",
   },
   {
-    id: 3,
+    id: 9,
     name: "Puma",
     description: "Some quick example text to build",
     price: 699,

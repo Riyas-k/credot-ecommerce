@@ -1,13 +1,45 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import { logoutUser } from "../redux/userReducer";
 
-const Navbar = () => {
+const Navbar = ({ click = true }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // const [name, setName] = useState("");
+  const token = useSelector((state) => state.user?.token);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = () => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "Are you sure?",
+      text: "To Logout!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Logout",
+      cancelButtonText: "Cancel",
+      customClass: {
+        confirmButton: "btn bg-danger",
+        cancelButton: "btn bg-success",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(logoutUser());
+
+        navigate("/login");
+      }
+    });
   };
 
   return (
@@ -104,19 +136,32 @@ const Navbar = () => {
                   aria-haspopup="true"
                   style={{ width: "50px", height: "50px" }}
                 >
-                 <Link to="/cart"> <FontAwesomeIcon
-                    icon={faShoppingCart}
-                    style={{
-                      color: "white",
-                      justifyContent: "center",
-                      marginLeft: "10px",
-                      marginTop: "15px",
-                      height: "25px",
-                    }}
-                  /></Link>
+                  <Link to="/cart">
+                    {" "}
+                    <FontAwesomeIcon
+                      icon={faShoppingCart}
+                      style={{
+                        color: "white",
+                        justifyContent: "center",
+                        marginLeft: "10px",
+                        marginTop: "15px",
+                        height: "25px",
+                      }}
+                    />
+                  </Link>
                 </button>
               </div>
             </div>
+            {token && (
+              <div className="flex items-center space-x-4 ml-5">
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
